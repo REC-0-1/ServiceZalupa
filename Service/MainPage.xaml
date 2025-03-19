@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Service"
+             x:Class="Service.MainPage"
+             Title="Предложения">
+
+    <StackLayout>
+        <SearchBar Placeholder="Поиск по названию или номеру" 
+                   TextChanged="OnSearchTextChanged" />
+
+        <StackLayout Orientation="Horizontal" Padding="10">
+            <Label Text="Показывать только проведенные" VerticalOptions="Center" />
+            <Switch x:Name="ApprovedFilterSwitch" Toggled="OnApprovedFilterSwitchToggled" />
+        </StackLayout>
+
+        <ListView ItemsSource="{Binding Offers}" HasUnevenRows="True">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout Padding="10" VerticalOptions="FillAndExpand">
+                            <Label Text="{Binding Id, StringFormat='ID: {0}'}" />
+                            <Label Text="{Binding Name, StringFormat='Имя: {0}'}" />
+                            <Label Text="{Binding number, StringFormat='Номер телефона: {0}'}" />
+                            <Label Text="{Binding Mark, StringFormat='Марка: {0}'}" />
+                            <Label Text="{Binding partnumber, StringFormat='Номер детали: {0}'}" />
+                            <Label Text="{Binding price, StringFormat='Цена: {0:C}'}" />
+                            <Label Text="{Binding Approved, StringFormat='Проведено: {0}'}" />
+                            <Button Text="Редактировать" 
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type local:MainPageViewModel}}, Path=EditOfferCommand}" 
+                                    CommandParameter="{Binding}" />
+                            <Button Text="Удалить" 
+        Command="{Binding Source={RelativeSource AncestorType={x:Type local:MainPageViewModel}}, Path=DeleteOfferCommand}" 
+        CommandParameter="{Binding}" />
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <Button Text="Добавить предложение" 
+        Command="{Binding GoToAddOfferPageCommand}" />
+    </StackLayout>
+</ContentPage>
